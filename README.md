@@ -10,7 +10,7 @@
 
 <br/>
 
-`rds-migrator` is a tool for migrating Redis-Split metadata to [RDS](https://kaos.sh/rds) format.
+`rds-migrator` is a tool for migrating _Redis-Split_ metadata to [RDS](https://kaos.sh/rds) format.
 
 ### Installation
 
