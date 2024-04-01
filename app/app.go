@@ -2,7 +2,7 @@ package app
 
 // ////////////////////////////////////////////////////////////////////////////////// //
 //                                                                                    //
-//                         Copyright (c) 2023 ESSENTIAL KAOS                          //
+//                         Copyright (c) 2024 ESSENTIAL KAOS                          //
 //      Apache License, Version 2.0 <https://www.apache.org/licenses/LICENSE-2.0>     //
 //                                                                                    //
 // ////////////////////////////////////////////////////////////////////////////////// //
@@ -16,6 +16,10 @@ import (
 	"github.com/essentialkaos/ek/v12/initsystem"
 	"github.com/essentialkaos/ek/v12/options"
 	"github.com/essentialkaos/ek/v12/sortutil"
+	"github.com/essentialkaos/ek/v12/support"
+	"github.com/essentialkaos/ek/v12/support/deps"
+	"github.com/essentialkaos/ek/v12/support/pkgs"
+	"github.com/essentialkaos/ek/v12/terminal/tty"
 	"github.com/essentialkaos/ek/v12/usage"
 )
 
@@ -23,7 +27,7 @@ import (
 
 const (
 	APP  = "RDS Migrator"
-	VER  = "1.1.0"
+	VER  = "1.1.1"
 	DESC = "Utility for migrating Redis-Split metadata to RDS format"
 )
 
@@ -37,6 +41,8 @@ const (
 	OPT_NO_COLOR = "nc:no-color"
 	OPT_HELP     = "h:help"
 	OPT_VER      = "v:version"
+
+	OPT_VERB_VER = "vv:verbose-version"
 )
 
 // ////////////////////////////////////////////////////////////////////////////////// //
@@ -48,12 +54,15 @@ var optMap = options.Map{
 	OPT_ROLE:     {},
 	OPT_NO_COLOR: {Type: options.BOOL},
 	OPT_HELP:     {Type: options.BOOL},
-	OPT_VER:      {Type: options.BOOL},
+	OPT_VER:      {Type: options.MIXED},
+
+	OPT_VERB_VER: {Type: options.BOOL},
 }
 
 // ////////////////////////////////////////////////////////////////////////////////// //
 
-func Run(gitRev string) {
+// Run is main application function
+func Run(gitRev string, gomod []byte) {
 	preConfigureUI()
 
 	args, errList := options.Parse(optMap)
@@ -70,7 +79,14 @@ func Run(gitRev string) {
 
 	switch {
 	case options.GetB(OPT_VER):
-		genAbout(gitRev).Print()
+		genAbout(gitRev).Print(options.GetS(OPT_VER))
+		os.Exit(0)
+	case options.GetB(OPT_VERB_VER):
+		support.Collect(APP, VER).
+			WithRevision(gitRev).
+			WithDeps(deps.Extract(gomod)).
+			WithPackages(pkgs.Collect("rds", "rds-sync")).
+			Print()
 		os.Exit(0)
 	case options.GetB(OPT_HELP) || len(args) == 0:
 		genUsage().Print()
@@ -86,27 +102,7 @@ func Run(gitRev string) {
 
 // preConfigureUI configure user interface
 func preConfigureUI() {
-	term := os.Getenv("TERM")
-
-	fmtc.DisableColors = true
-
-	if term != "" {
-		switch {
-		case strings.Contains(term, "xterm"),
-			strings.Contains(term, "color"),
-			term == "screen":
-			fmtc.DisableColors = false
-		}
-	}
-
-	// Check for output redirect using pipes
-	if fsutil.IsCharacterDevice("/dev/stdin") &&
-		!fsutil.IsCharacterDevice("/dev/stdout") &&
-		os.Getenv("FAKETTY") == "" {
-		fmtc.DisableColors = true
-	}
-
-	if os.Getenv("NO_COLOR") != "" {
+	if !tty.IsTTY() {
 		fmtc.DisableColors = true
 	}
 }
@@ -246,8 +242,8 @@ func genAbout(gitRev string) *usage.About {
 		Version: VER,
 		Desc:    DESC,
 		Year:    2009,
-		License: "Apache License, Version 2.0 <https://www.apache.org/licenses/LICENSE-2.0>",
 		Owner:   "ESSENTIAL KAOS",
+		License: "Apache License, Version 2.0 <https://www.apache.org/licenses/LICENSE-2.0>",
 	}
 
 	if gitRev != "" {
