@@ -1,12 +1,12 @@
-<p align="center"><a href="#readme"><img src="https://gh.kaos.st/rds-migrator.svg"/></a></p>
+<p align="center"><a href="#readme"><img src=".github/images/card.svg"/></a></p>
 
 <p align="center">
   <a href="https://kaos.sh/w/rds-migrator/ci"><img src="https://kaos.sh/w/rds-migrator/ci.svg" alt="GitHub Actions CI Status" /></a>
   <a href="https://kaos.sh/w/rds-migrator/codeql"><img src="https://kaos.sh/w/rds-migrator/codeql.svg" alt="GitHub Actions CodeQL Status" /></a>
-  <a href="#license"><img src="https://gh.kaos.st/apache2.svg"></a>
+  <a href="#license"><img src=".github/images/license.svg"/></a>
 </p>
 
-<p align="center"><a href="#installation">Installation</a> • <a href="#usage">Usage</a> • <a href="#build-status">Build Status</a> • <a href="#contributing">Contributing</a> • <a href="#license">License</a></p>
+<p align="center"><a href="#installation">Installation</a> • <a href="#usage">Usage</a> • <a href="#ci-status">CI Status</a> • <a href="#contributing">Contributing</a> • <a href="#license">License</a></p>
 
 <br/>
 
@@ -16,7 +16,7 @@
 
 #### From source
 
-To build the `rds-migrator` from scratch, make sure you have a working Go 1.18+ workspace (_[instructions](https://go.dev/doc/install)_), then:
+To build the `rds-migrator` from scratch, make sure you have a working Go 1.21+ workspace (_[instructions](https://go.dev/doc/install)_), then:
 
 ```
 go install github.com/essentialkaos/rds-migrator
@@ -32,25 +32,9 @@ bash <(curl -fsSL https://apps.kaos.st/get) rds-migrator
 
 ### Usage
 
-```
-Usage: rds-migrator {options} dir
+<p align="center"><img src=".github/images/usage.svg"/></p>
 
-Options
-
-  --dry, -D          Dry run (do not convert anything)
-  --convert, -C      Just convert meta (do not check anything)
-  --role, -r role    Overwrite instances role
-  --no-color, -nc    Disable colors in output
-  --help, -h         Show this help message
-  --version, -v      Show information about version
-
-Examples
-
-  rds-migrator /opt/redis-split/meta
-  Convert all metadata in /opt/redis-split/meta to the latest version
-```
-
-### Build Status
+### CI Status
 
 | Branch | Status |
 |--------|----------|
