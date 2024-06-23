@@ -19,6 +19,7 @@ import (
 	"github.com/essentialkaos/ek/v12/support"
 	"github.com/essentialkaos/ek/v12/support/deps"
 	"github.com/essentialkaos/ek/v12/support/pkgs"
+	"github.com/essentialkaos/ek/v12/terminal"
 	"github.com/essentialkaos/ek/v12/terminal/tty"
 	"github.com/essentialkaos/ek/v12/usage"
 )
@@ -27,7 +28,7 @@ import (
 
 const (
 	APP  = "RDS Migrator"
-	VER  = "1.1.1"
+	VER  = "1.1.2"
 	DESC = "Utility for migrating Redis-Split metadata to RDS format"
 )
 
@@ -65,13 +66,11 @@ var optMap = options.Map{
 func Run(gitRev string, gomod []byte) {
 	preConfigureUI()
 
-	args, errList := options.Parse(optMap)
+	args, errs := options.Parse(optMap)
 
-	if len(errList) != 0 {
-		for _, err := range errList {
-			printError(err.Error())
-		}
-
+	if !errs.IsEmpty() {
+		terminal.Error("Options parsing errors:")
+		terminal.Error(errs.String())
 		os.Exit(1)
 	}
 
@@ -203,14 +202,9 @@ func printFileActionStatus(file string, err error) {
 	}
 }
 
-// printError prints error message to console
-func printError(f string, a ...any) {
-	fmtc.Fprintf(os.Stderr, "{r}"+f+"{!}\n", a...)
-}
-
 // printErrorAndExit print error message and exit with exit code 1
 func printErrorAndExit(f string, a ...any) {
-	printError(f, a...)
+	terminal.Error(f, a...)
 	os.Exit(1)
 }
 
