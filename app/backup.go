@@ -14,7 +14,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/essentialkaos/ek/v12/timeutil"
+	"github.com/essentialkaos/ek/v13/timeutil"
 )
 
 // backup backups original meta to tar.gz archive

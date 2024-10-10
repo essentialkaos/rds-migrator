@@ -11,17 +11,17 @@ import (
 	"os"
 	"strings"
 
-	"github.com/essentialkaos/ek/v12/fmtc"
-	"github.com/essentialkaos/ek/v12/fsutil"
-	"github.com/essentialkaos/ek/v12/initsystem"
-	"github.com/essentialkaos/ek/v12/options"
-	"github.com/essentialkaos/ek/v12/sortutil"
-	"github.com/essentialkaos/ek/v12/support"
-	"github.com/essentialkaos/ek/v12/support/deps"
-	"github.com/essentialkaos/ek/v12/support/pkgs"
-	"github.com/essentialkaos/ek/v12/terminal"
-	"github.com/essentialkaos/ek/v12/terminal/tty"
-	"github.com/essentialkaos/ek/v12/usage"
+	"github.com/essentialkaos/ek/v13/fmtc"
+	"github.com/essentialkaos/ek/v13/fsutil"
+	"github.com/essentialkaos/ek/v13/initsystem"
+	"github.com/essentialkaos/ek/v13/options"
+	"github.com/essentialkaos/ek/v13/sortutil"
+	"github.com/essentialkaos/ek/v13/support"
+	"github.com/essentialkaos/ek/v13/support/deps"
+	"github.com/essentialkaos/ek/v13/support/pkgs"
+	"github.com/essentialkaos/ek/v13/terminal"
+	"github.com/essentialkaos/ek/v13/terminal/tty"
+	"github.com/essentialkaos/ek/v13/usage"
 )
 
 // ////////////////////////////////////////////////////////////////////////////////// //

@@ -8,9 +8,10 @@ package app
 // ////////////////////////////////////////////////////////////////////////////////// //
 
 import (
-	"github.com/essentialkaos/ek/v12/jsonutil"
-	"github.com/essentialkaos/ek/v12/passwd"
-	"github.com/essentialkaos/ek/v12/rand"
+	"math/rand"
+
+	"github.com/essentialkaos/ek/v13/jsonutil"
+	"github.com/essentialkaos/ek/v13/passwd"
 
 	"github.com/essentialkaos/rds-migrator/meta"
 )
@@ -87,5 +88,5 @@ func getReplicationType(m *meta.RSV3) string {
 
 // genPassword generates pseudo-secure password with random length (16-28)
 func genPassword() string {
-	return passwd.GenPassword(16+rand.Int(6), passwd.STRENGTH_MEDIUM)
+	return passwd.GenPassword(16+rand.Intn(6), passwd.STRENGTH_MEDIUM)
 }
